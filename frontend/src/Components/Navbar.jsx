@@ -9,7 +9,7 @@ const Navbar = () => {
   const {asv}=useSelector((store)=>store.users)
   return (
     <Flex p="15px" bg={"#5dcaca"} justifyContent="space-between">
-        <Image w="45px" src='https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f4bc.svg'/>
+        <Link to={"/"}><Image w="45px" src='https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f4bc.svg'/></Link>
         <Flex w="60%" justifyContent={"space-evenly"} alignItems="center">
         <Link to={"/create-event"}><Text fontWeight={"bold"}>Create Events</Text></Link>
         {asv!=""?<NameCard/>:<Link to={"/sign-up"}><Text fontWeight={"bold"}>SignUp</Text></Link>}

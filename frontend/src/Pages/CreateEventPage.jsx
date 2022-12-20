@@ -1,5 +1,7 @@
-import { Box, Button, Flex, Input, Text, Textarea } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Box, Button, Flex, Input, Text, Textarea, useToast } from '@chakra-ui/react'
+import React, { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { createEvent } from '../Store/events/events.action'
 const initialState={
     name:"",
     description:"",
@@ -9,7 +11,9 @@ const initialState={
 }
 const CreateEventPage = () => {
     const [data,setData]=useState(initialState)
-
+    const toast=useToast()
+    const ref=useRef()
+    const dispatch=useDispatch()
     const handleChange=(e)=>{
         const {name,value}=e.target
         setData({...data,[name]:value})
@@ -17,8 +21,22 @@ const CreateEventPage = () => {
 
     const handleSubmit=(e)=>{
        e.preventDefault()
+       for(let i=0;i<e.target.length-1;i++)
+       {
+          e.target[i].value=""
+       }
        data.capacity=Number(data.capacity)
-       console.log(data)
+       dispatch(createEvent(data)).then((res)=>{
+           toast({
+             description:"Event created successfully",
+             status:"success"
+           })
+       }).catch((err)=>{
+           toast({
+             description:err.response.data.message,
+             status:"error"
+           })
+       })
     }
   return (
     <Box>
