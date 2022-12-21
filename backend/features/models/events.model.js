@@ -7,12 +7,12 @@ const EventsSchema=new Schema({
     place:{type:String,required:true},
     capacity:{type:Number,required:true},
     userId:{type:Schema.Types.ObjectId,ref:"user"},
-    users:[
-        {
-            userId:{type:Schema.Types.ObjectId,ref:"user"},
-            status:{type:Boolean,default:false} 
-        }
-    ]
+    // users:[
+    //     {
+    //         userId:{type:Schema.Types.ObjectId,ref:"user"},
+    //         status:{type:Boolean,default:false} 
+    //     }
+    // ]
 })
 
 const EventsModel=model("event",EventsSchema)

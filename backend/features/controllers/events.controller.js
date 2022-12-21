@@ -35,7 +35,9 @@ const getSingleEvent=async(id)=>{
             date:date,
             time:time,
             capacity:singleEvent.capacity,
-            description:singleEvent.description
+            description:singleEvent.description,
+            eventID:singleEvent._id,
+            organizerID:singleEvent.userId
           }
           response={message:"Successful",data:data}
      }catch(e){
