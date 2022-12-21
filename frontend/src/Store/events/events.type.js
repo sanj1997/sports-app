@@ -13,3 +13,15 @@ export const GET_SINGLE_EVENTS_ERROR="events/get-single/error"
 export const POST_BOOK_EVENT_LOADING="events/book/loading"
 export const POST_BOOK_EVENT_SUCCESS="events/book/success"
 export const POST_BOOK_EVENT_ERROR="events/book/error"
+
+export const GET_EVENT_BOOKINGS_LOADING="events/get/bookings/loading"
+export const GET_EVENT_BOOKINGS_SUCCESS="events/get/bookings/success"
+export const GET_EVENT_BOOKINGS_ERROR="events/get/bookings/error"
+
+export const UPDATE_EVENT_BOOKING_LOADING="events/update/booking/loading"
+export const UPDATE_EVENT_BOOKING_SUCCESS="events/update/booking/success"
+export const UPDATE_EVENT_BOOKING_ERROR="events/update/booking/error"
+
+export const MY_EVENTS_BOOKED_LOADING="my/events/booked/loading"
+export const MY_EVENTS_BOOKED_SUCCESS="my/events/booked/success"
+export const MY_EVENTS_BOOKED_ERROR="my/events/booked/error"

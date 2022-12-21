@@ -40,7 +40,9 @@ const EventDetailsPage = () => {
          <Text mt="20px" fontWeight={"bold"} fontSize="2xl" textAlign={"center"}>Event Details</Text>
          <Flex  p="20px" flexDirection={"column"} justifyContent="space-between" m="auto" mt="10px" gap="15px" w={"30%"}>
             <Text fontWeight={"bold"}>Event name: {singleEvent?.name}</Text>
+            <Text fontWeight={"bold"}>Organized By: {singleEvent?.organizer}</Text>
             <Text fontWeight={"bold"}>Event details: {singleEvent?.description}</Text>
+            <Text fontWeight={"bold"}>Event Category: {singleEvent?.category}</Text>
             <Text fontWeight={"bold"}>Place: {singleEvent?.place}</Text>
             <Text fontWeight={"bold"}>Date of event: {singleEvent?.date}</Text>
             <Text fontWeight={"bold"}>Starting at: {singleEvent?.time}</Text>
