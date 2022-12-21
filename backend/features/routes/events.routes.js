@@ -4,8 +4,8 @@ const authMiddleware = require("../middlewares/users.middleware")
 const route=express.Router()
 
 route.post("/create",authMiddleware,async(req,res)=>{
-    const {name,description,timing,place,capacity,userID}=req.body
-     const response=await createEvent(name,description,timing,place,capacity,userID)
+    const {name,description,timing,place,capacity,userID,category}=req.body
+     const response=await createEvent(name,description,timing,place,capacity,userID,category)
      if(response.message==="Successful")
      {
         return res.send(response)
@@ -14,6 +14,7 @@ route.post("/create",authMiddleware,async(req,res)=>{
 })
 
 route.get("/",async(req,res)=>{
+    const {filter,query}=req.query
     const response=await getAllEvents()
     if(response.message==="Successful")
     {

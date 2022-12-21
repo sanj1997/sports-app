@@ -7,12 +7,7 @@ const EventsSchema=new Schema({
     place:{type:String,required:true},
     capacity:{type:Number,required:true},
     userId:{type:Schema.Types.ObjectId,ref:"user"},
-    // users:[
-    //     {
-    //         userId:{type:Schema.Types.ObjectId,ref:"user"},
-    //         status:{type:Boolean,default:false} 
-    //     }
-    // ]
+    category:{type:String,enum:["Cricket","Football","Badminton","Swimming","Hockey","Kabaddi","Any"],required:true}
 })
 
 const EventsModel=model("event",EventsSchema)
