@@ -11,10 +11,27 @@ const createEvent=async(name,description,timing,place,capacity,userId,category)=
     }
     return response
 }
-const getAllEvents=async()=>{
+const getAllEvents=async(filter,query)=>{
     let response;
     try{
-         const allEvents=await EventsModel.find().populate("userId")
+         let allEvents;
+         console.log(filter,query)
+         if(filter==="Any"&&query==="")
+         {
+            allEvents=await EventsModel.find().populate("userId")
+         }
+         else if(filter!="Any"&&query==="")
+         {
+            allEvents=await EventsModel.find({category:filter}).populate("userId")
+         }
+         else if(query!=""&&filter==="Any")
+         {
+            allEvents=await EventsModel.find({name:{$regex:query,$options:"i"}}).populate("userId")
+         }
+         else if(query!=""&&filter!="Any")
+         {
+            allEvents=await EventsModel.find({name:{$regex:query,$options:"i"},category:filter}).populate("userId")
+         }
          const data=[]
          for(let i=0;i<allEvents.length;i++)
          {
