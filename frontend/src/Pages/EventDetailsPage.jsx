@@ -1,21 +1,40 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getSingleEvent } from '../Store/events/events.action'
+import { createBooking, getSingleEvent } from '../Store/events/events.action'
 import { getUserDetails } from '../Store/users/users.action'
 
 const EventDetailsPage = () => {
   const params=useParams()
   const dispatch=useDispatch()
+  const toast=useToast()
   const {singleEvent,loading}=useSelector((store)=>store.events)
-  console.log(singleEvent,"hello")
+  const {userId}=useSelector((store)=>store.users)
   useEffect(()=>{
      dispatch(getSingleEvent(params.id))
   },[params.id])
   useEffect(()=>{
     dispatch(getUserDetails())
-},[])
+  },[])
+  const handleBooking=()=>{
+    const payload={
+      eventID:singleEvent.eventID,
+      organizerID:singleEvent.organizerID,
+      createdByID:userId,
+    }
+    dispatch(createBooking(payload)).then((res)=>{
+          toast({
+            description:"Booking created successfully",
+            status:"success"
+          })
+    }).catch((err)=>{
+          toast({
+            description: err.response.data.message,
+            status:"error"
+          })
+    }) 
+  }
   return (
     <Box>
          <Text mt="20px" fontWeight={"bold"} fontSize="2xl" textAlign={"center"}>Event Details</Text>
@@ -26,7 +45,7 @@ const EventDetailsPage = () => {
             <Text fontWeight={"bold"}>Date of event: {singleEvent?.date}</Text>
             <Text fontWeight={"bold"}>Starting at: {singleEvent?.time}</Text>
             <Text fontWeight={"bold"}>Available seats: {singleEvent?.capacity}</Text>
-            <Button disabled={singleEvent?.capacity==0}>Join</Button>
+            <Button onClick={handleBooking} disabled={singleEvent?.capacity==0||userId==singleEvent.organizerID}>Join</Button>
          </Flex>
     </Box>
   )
