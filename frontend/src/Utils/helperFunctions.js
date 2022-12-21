@@ -1,4 +1,4 @@
-const checkPassword=(password)=>{
+export const checkPassword=(password)=>{
     let flag1=false
     let flag2=false
     let char=["!","@","#","$","%","^","&","*"]
@@ -23,4 +23,13 @@ const checkPassword=(password)=>{
     }
     return false
 }
-export default checkPassword
+
+export const debouncing=(func,delay)=>{
+  let timer;
+  return function(){
+    clearTimeout(timer)
+    timer=setTimeout(()=>{
+         func()
+    },delay)
+  }
+}

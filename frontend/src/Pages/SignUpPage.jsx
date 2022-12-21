@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userSignUp } from '../Store/users/users.action'
-import checkPassword from '../Utils/helperFunctions'
+import {checkPassword} from '../Utils/helperFunctions'
 const initialState={
     name:"",
     email:"",

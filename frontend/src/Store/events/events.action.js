@@ -13,10 +13,10 @@ export const createEvent=(data)=>async(dispatch)=>{
      }
 }
 
-export const getAllEvents=()=>async(dispatch)=>{
+export const getAllEvents=(filter,query)=>async(dispatch)=>{
     dispatch({type:GET_ALL_EVENTS_LOADING})
     try{
-       const response=await axios("http://localhost:8080/events")
+       const response=await axios(`http://localhost:8080/events?filter=${filter}&query=${query}`)
        dispatch({type:GET_ALL_EVENTS_SUCCESS,payload:response.data.data})
     }catch(e){
        dispatch({type:GET_ALL_EVENTS_ERROR})
