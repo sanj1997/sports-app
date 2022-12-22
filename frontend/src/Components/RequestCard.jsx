@@ -20,6 +20,11 @@ const RequestCard = ({data}) => {
                     status:"success"
                 })
             })
+        }).catch((err)=>{
+            toast({
+                description:err.response.data.message,
+                status:"error"
+            })
         })
     }
   return (
