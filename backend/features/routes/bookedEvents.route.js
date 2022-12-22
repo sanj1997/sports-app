@@ -12,13 +12,17 @@ route.post("/",authMiddleware,async(req,res)=>{
     }
     else if(response.message==="Event has expired")
     {
-        return res.status(401).send(response)
+        return res.status(403).send(response)
+    }
+    else if(response.message==="Seats not available")
+    {
+        return res.status(403).send(response)
     }
     else if(response.message==="You have already booked this event")
     {
-        return res.status(401).send(response)
+        return res.status(403).send(response)
     }
-    return res.status(401).send(response)
+    return res.status(406).send(response)
 })
 
 route.get("/",authMiddleware,async(req,res)=>{
@@ -28,7 +32,7 @@ route.get("/",authMiddleware,async(req,res)=>{
      {
         return res.send(response)
      }
-     return res.status(401).send(response)
+     return res.status(406).send(response)
 })
 
 route.patch("/:id",authMiddleware,async(req,res)=>{
@@ -39,9 +43,13 @@ route.patch("/:id",authMiddleware,async(req,res)=>{
     {
         return res.send(response)
     }
+    else if(response.message==="Seats not available")
+    {
+        return res.status(403).send(response)
+    }
     else if(response.message==="Event has expired")
     {
-        return res.status(401).send(response)
+        return res.status(403).send(response)
     }
     return res.status(401).send(response)
 })
@@ -53,6 +61,6 @@ route.get("/mybookings",authMiddleware,async(req,res)=>{
     {
         return res.send(response)
     }
-   return res.status(401).send(response) 
+   return res.status(406).send(response) 
 })
 module.exports=route

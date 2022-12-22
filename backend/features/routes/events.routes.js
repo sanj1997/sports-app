@@ -10,7 +10,7 @@ route.post("/create",authMiddleware,async(req,res)=>{
      {
         return res.send(response)
      }
-    return res.status(401).send(response) 
+    return res.status(406).send(response) 
 })
 
 route.get("/",async(req,res)=>{
@@ -20,7 +20,7 @@ route.get("/",async(req,res)=>{
     {
         return res.send(response)
     }
-    return res.status(401).send(response)
+    return res.status(500).send(response)
 })
 
 route.get("/:id",authMiddleware,async(req,res)=>{
@@ -30,6 +30,6 @@ route.get("/:id",authMiddleware,async(req,res)=>{
       {
         return res.send(response)
       }
-    return res.status(401).send(response)  
+    return res.status(406).send(response)  
 })
 module.exports=route
