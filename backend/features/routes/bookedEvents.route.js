@@ -10,6 +10,10 @@ route.post("/",authMiddleware,async(req,res)=>{
     {
         return res.send(response)
     }
+    else if(response.message==="Event has expired")
+    {
+        return res.status(401).send(response)
+    }
     else if(response.message==="You have already booked this event")
     {
         return res.status(401).send(response)
@@ -34,6 +38,10 @@ route.patch("/:id",authMiddleware,async(req,res)=>{
     if(response.message==="Successful")
     {
         return res.send(response)
+    }
+    else if(response.message==="Event has expired")
+    {
+        return res.status(401).send(response)
     }
     return res.status(401).send(response)
 })

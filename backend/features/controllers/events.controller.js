@@ -15,7 +15,6 @@ const getAllEvents=async(filter,query)=>{
     let response;
     try{
          let allEvents;
-         console.log(filter,query)
          if(filter==="Any"&&query==="")
          {
             allEvents=await EventsModel.find().populate("userId")

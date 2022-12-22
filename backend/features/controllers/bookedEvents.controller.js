@@ -5,16 +5,30 @@ const createBooking=async(data)=>{
     const {eventID,createdByID}=data
      let response
      try{
-         const checkIsExisting=await BookedEventsModel.findOne({eventID:eventID,createdByID:createdByID})
-         if(checkIsExisting)
+         
+         const checkIsExpired=await EventsModel.findOne({_id:eventID})
+         const result=checkEventExpiry(checkIsExpired)
+        //  let details=checkIsExpired.timing.split("T")
+        //  let eventDate=new Date(details[0]+" "+details[1])
+        //  let currentDate=new Date()
+         if(result)
          {
-            response={message:"You have already booked this event"}
+            response={message:"Event has expired"}
          }
          else
          {
-            const newBooking=await BookedEventsModel.create(data)
-            response={message:"Successful"}
+            const checkIsExisting=await BookedEventsModel.findOne({eventID:eventID,createdByID:createdByID})
+            if(checkIsExisting)
+            {
+               response={message:"You have already booked this event"}
+            }
+            else
+            {
+               const newBooking=await BookedEventsModel.create(data)
+               response={message:"Successful"}
+            }
          }
+         
      }catch(e){
         response={message:e.message}
      }
@@ -25,6 +39,19 @@ const getBookings=async(id)=>{
     let response
     try{
         const allBookings=await BookedEventsModel.find({organizerID:id}).populate("eventID").populate("createdByID")
+        for(let i=0;i<allBookings.length;i++)
+        {
+            // const checkIsExpired=await EventsModel.findOne({_id:allBookings[i].eventID._id})
+            const result=checkEventExpiry(allBookings[i].eventID)
+            // const details=allBookings[i].eventID.timing.split("T")
+            // console.log(details,"keyyy")
+            // // let currentDate=new Date()
+            // let eventDate=new Date(details[0]+" "+details[1])
+            if(result)
+            {
+                const updateEvent=await BookedEventsModel.updateOne({_id:allBookings[i]._id},{$set:{status:"Expired"}})
+            }
+        }
         const data=[]
         for(let i=0;i<allBookings.length;i++)
         {
@@ -54,20 +81,28 @@ const updateBooking=async(id,status,eventID,capacity)=>{
     let response
     try{
         const booking=await BookedEventsModel.findOne({_id:id})
-        const updatedBooking=await BookedEventsModel.updateOne({_id:id},{$set:{status:status}})
-        if(status==="Accept"&&booking.status==="Pending")
+        if(booking.status==="Expired")
         {
-            const event=await EventsModel.updateOne({_id:eventID},{$set:{capacity:capacity-1}})
+            response={message:"Event has expired"}
         }
-        else if(status==="Reject"&&booking.status==="Accept")
+        else
         {
-            const event=await EventsModel.updateOne({_id:eventID},{$set:{capacity:capacity+1}})
+            const updatedBooking=await BookedEventsModel.updateOne({_id:id},{$set:{status:status}})
+            if(status==="Accept"&&booking.status==="Pending")
+            {
+                const event=await EventsModel.updateOne({_id:eventID},{$set:{capacity:capacity-1}})
+            }
+            else if(status==="Reject"&&booking.status==="Accept")
+            {
+                const event=await EventsModel.updateOne({_id:eventID},{$set:{capacity:capacity+1}})
+            }
+            else if(status==="Accept"&&booking.status==="Reject")
+            {
+                const event=await EventsModel.updateOne({_id:eventID},{$set:{capacity:capacity-1}})
+            }
+            response={message:"Successful"}
         }
-        else if(status==="Accept"&&booking.status==="Reject")
-        {
-            const event=await EventsModel.updateOne({_id:eventID},{$set:{capacity:capacity-1}})
-        }
-        response={message:"Successful"}
+        
     }catch(e){
         response={message:e.message}
     }
@@ -114,5 +149,16 @@ const getUserBookings=async(id)=>{
           response={message:e.message}
     }
     return response
+}
+
+const checkEventExpiry=(checkIsExpired)=>{
+         let details=checkIsExpired.timing.split("T")
+         let eventDate=new Date(details[0]+" "+details[1])
+         let currentDate=new Date()
+         if(currentDate>=eventDate)
+         {
+            return true
+         }
+         return false
 }
 module.exports={createBooking,getBookings,updateBooking,getUserBookings}
