@@ -8,7 +8,6 @@ import { getUserDetails } from '../Store/users/users.action'
 const RequestsPage = () => {
     const dispatch=useDispatch()
     const {bookings}=useSelector((store)=>store.events)
-    console.log(bookings)
     useEffect(()=>{
         dispatch(getUserDetails())
       },[])

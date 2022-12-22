@@ -1,8 +1,7 @@
 import axios from "axios";
-// require("dotenv").config()
 const APP_URL=process.env.REACT_APP_URL
 const instance=axios.create({
-    baseURL:"http://localhost:8080/"
+    baseURL:APP_URL
     
 })
 
@@ -30,7 +29,7 @@ instance.interceptors.response.use(
       {
          previousRequest.sent=true
          let rToken = JSON.parse(localStorage.getItem("csv"))
-         const res=await axios("http://localhost:8080/users/refresh",{
+         const res=await axios(`${APP_URL}users/refresh`,{
             headers:{
                 "Authorization":rToken
             },
