@@ -21,10 +21,21 @@ const RequestCard = ({data}) => {
                 })
             })
         }).catch((err)=>{
-            toast({
+            
+            if(err.message==="Network Error")
+            {
+              toast({
+                description: "Oops! Something went wrong",
+                status: "error",
+              });
+            }
+            else
+            {
+              toast({
                 description:err.response.data.message,
                 status:"error"
             })
+            }
         })
     }
   return (
@@ -38,7 +49,7 @@ const RequestCard = ({data}) => {
          <Text fontWeight={"bold"}>Booking Status: {status}</Text>
          <Text fontWeight={"bold"}>Available Seats: {capacity}</Text>
          <Flex w={"60%"} m="auto" justifyContent="space-between">
-            <Button onClick={(e)=>handleBookingStatus(e)} disabled={capacity<=0||status=="Accept"}>Accept</Button>
+            <Button onClick={(e)=>handleBookingStatus(e)} disabled={status=="Accept"}>Accept</Button>
             <Button onClick={(e)=>handleBookingStatus(e)} disabled={status==="Reject"}>Reject</Button>
          </Flex>
     </Flex>

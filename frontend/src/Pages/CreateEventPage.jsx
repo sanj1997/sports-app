@@ -42,10 +42,20 @@ const CreateEventPage = () => {
         });
       })
       .catch((err) => {
-        toast({
-          description: err.response.data.message,
-          status: "error",
-        });
+        if(err.message==="Network Error")
+        {
+          toast({
+            description: "Oops! Something went wrong",
+            status: "error",
+          });
+        }
+        else
+        {
+          toast({
+            description: err.response.data.message,
+            status: "error",
+          });
+        }
       });
   };
   return (
@@ -56,18 +66,21 @@ const CreateEventPage = () => {
       <Flex w="30%" m="auto">
         <form onSubmit={(e) => handleSubmit(e)}>
           <Input
+            isRequired
             name="name"
             onChange={(e) => handleChange(e)}
             mt="15px"
             placeholder="Enter name"
           />
           <Textarea
+            isRequired
             onChange={(e) => handleChange(e)}
             name="description"
             mt="15px"
             placeholder="Enter description"
           />
           <Input
+            isRequired
             onChange={(e) => handleChange(e)}
             name="timing"
             mt="15px"
@@ -77,6 +90,7 @@ const CreateEventPage = () => {
             onChange={(e) => handleChange(e)}
             name="place"
             mt="15px"
+            isRequired
             placeholder="Enter place"
           />
           <Input
@@ -84,9 +98,10 @@ const CreateEventPage = () => {
             name="capacity"
             mt="15px"
             type="number"
+            isRequired
             placeholder="Enter capacity"
           />
-          <Select name="category" onChange={(e) => handleChange(e)} mt="15px" placeholder="Select category">
+          <Select isRequired name="category" onChange={(e) => handleChange(e)} mt="15px" placeholder="Select category">
             <option value="Any">Any</option>
             <option value="Cricket">Cricket</option>
             <option value="Football">Football</option>

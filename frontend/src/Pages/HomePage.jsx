@@ -22,7 +22,6 @@ const HomePage = () => {
     const handleQuery=()=>{
         setQuery(ref.current.value)
     }
-   
     const handleChange=debouncing(handleQuery,300)  
   return (
     <Box>

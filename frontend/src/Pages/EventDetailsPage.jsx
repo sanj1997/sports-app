@@ -47,7 +47,7 @@ const EventDetailsPage = () => {
             <Text fontWeight={"bold"}>Date of event: {singleEvent?.date}</Text>
             <Text fontWeight={"bold"}>Starting at: {singleEvent?.time}</Text>
             <Text fontWeight={"bold"}>Available seats: {singleEvent?.capacity}</Text>
-            <Button onClick={handleBooking} disabled={singleEvent?.capacity==0||userId==singleEvent.organizerID}>Join</Button>
+            <Button onClick={handleBooking} disabled={userId==singleEvent.organizerID}>Join</Button>
          </Flex>
     </Box>
   )

@@ -32,10 +32,20 @@ const SignUpPage = () => {
                     navigate("/sign-in")
                 },2000)
             }).catch((err)=>{
+              if(err.message==="Network Error")
+              {
                 toast({
-                    description:err.response.data.message,
-                    status:"error"
-                })
+                  description: "Oops! Something went wrong",
+                  status: "error",
+                });
+              }
+              else
+              {
+                toast({
+                  description:err.response.data.message,
+                  status:"error"
+              })
+              }
             })
         }
     }
@@ -76,9 +86,9 @@ const SignUpPage = () => {
         <Text textAlign={"center"} mt="20px" fontWeight={"bold"} fontSize="2xl">Sign Up</Text>
         <Flex w="30%" m="auto" mt="20px">
             <form onSubmit={(e)=>handleSubmit(e)}>
-                <Input onChange={(e)=>handleChange(e)} name='name' placeholder='Enter name'/>
-                <Input mt="10px" onChange={(e)=>handleChange(e)} name="email" placeholder='Enter email'/>
-                <Input type={"password"} mt="10px" onChange={(e)=>handleChange(e)} name='password' placeholder='Enter password'/>
+                <Input isRequired onChange={(e)=>handleChange(e)} name='name' placeholder='Enter name'/>
+                <Input isRequired mt="10px" onChange={(e)=>handleChange(e)} name="email" placeholder='Enter email'/>
+                <Input isRequired type={"password"} mt="10px" onChange={(e)=>handleChange(e)} name='password' placeholder='Enter password'/>
                 <Button w="100%" mt="10px" type='submit'>Submit</Button>
             </form>
         </Flex>
